@@ -1,2 +1,21 @@
 # RO-ARM32-ASSEMBLER-MODULES
 short file containing all necessary code modules for RO
+
+
+OPTIONAL: MUL, DIV
+
+LDR, STR LARGE VARIABLES:
+
+BITMANIPULATION:
+
+IF ELSE:
+
+LOOP:
+
+ARRAY + SORTING:
+
+SUBPROGRAM:
+
+SUBPROGRAM + STACK:
+
+RECURSION:
