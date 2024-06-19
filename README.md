@@ -8,7 +8,7 @@ short file containing all necessary code modules for RO
 
 ## IF ELSE:
 
-'''bash
+```bash
 
 1 cmp r0, r1
 2 bne L1
@@ -16,7 +16,7 @@ short file containing all necessary code modules for RO
 4 L1:
 5 sub r2, r2, r3
 
-'''
+```
 
 
 LOOP:
