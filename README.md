@@ -2,13 +2,22 @@
 short file containing all necessary code modules for RO
 
 
-OPTIONAL: MUL, DIV
+## LDR, STR LARGE VARIABLES:
 
-LDR, STR LARGE VARIABLES:
+## BITMANIPULATION:
 
-BITMANIPULATION:
+## IF ELSE:
 
-IF ELSE:
+'''bash
+
+1 cmp r0, r1
+2 bne L1
+3 add r2, r3, #1
+4 L1:
+5 sub r2, r2, r3
+
+'''
+
 
 LOOP:
 
