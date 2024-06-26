@@ -117,17 +117,21 @@ RECURSION:
 
 ###Simple Recursion
 
+it is important to keep in mind,
+that you will need to push and pop
+onto and from the stack manually
+
 ```bash
-1   /* init */
-2   main:
-3   mov rX, #X /* moving values for calculation onto registers*/
-4.  ...
-5.  bl RECURSION
-6.  
-7.  RECURSION:
-8.  push {rX} /* pushing rX values onto Stack}
+1   main:
+2  mov rX, #X /* moving values for calculation onto registers*/
+3.  ...
+4.  bl RECURSION
+5.  
+6.  RECURSION:
+7.  sub sp, sp, #X+4 /* free space on stack */
+8.  str rX, [sp, #X] /* pushing rX values onto Stack}
 9.  ...
-10. push {lr} /* safe lr on Stack */
+10. str lr, [sp, #X+4] /* safe lr on Stack */
 11. ...
 12. /* recursive calculations */
 13. cmp X, X /* some recursive break */
