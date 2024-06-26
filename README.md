@@ -114,3 +114,34 @@ SUBPROGRAM:
 SUBPROGRAM + STACK:
 
 RECURSION:
+
+###Simple Recursion
+
+```bash
+1   /* init */
+2   main:
+3   mov rX, #X /* moving values for calculation onto registers*/
+4.  ...
+5.  bl RECURSION
+6.  
+7.  RECURSION:
+8.  push {rX} /* pushing rX values onto Stack}
+9.  ...
+10. push {lr} /* safe lr on Stack */
+11. ...
+12. /* recursive calculations */
+13. cmp X, X /* some recursive break */
+14. b** BREAK
+15. ...
+16. bl RECURSION: /* Recursive Call*/
+17
+18. END:
+19  pop {rX} /* empty stack */
+20. pop {lr}
+21. bx lr
+22
+23. BREAK:
+24. /* do random stuff */
+25. b END
+```
+
