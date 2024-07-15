@@ -1,151 +1,246 @@
-# RO-ARM32-ASSEMBLER-GUIDE_CODEBASE
-short file containing all necessary code modules for RO
 
+# RO-ARM32-Assembler-Guide
 
-## LDR, STR LARGE VARIABLES:
+This repository contains code modules for basic operations in ARM32 assembly, including handling large variables, bit manipulation, control flow (if-else, loops), array manipulation, sorting, subprograms, recursion, and file operations using SWI.
 
-## BITMANIPULATION:
+## Table of Contents
 
-## IF ELSE:
+- [LDR, STR Large Variables](#ldr-str-large-variables)
+- [Bit Manipulation](#bit-manipulation)
+- [If-Else](#if-else)
+- [Loop](#loop)
+  - [While Loop](#while-loop)
+  - [For Loop](#for-loop)
+- [Array and Sorting](#array-and-sorting)
+  - [Array](#array)
+  - [Sorting](#sorting)
+- [Subprograms](#subprograms)
+  - [Simple Recursion](#simple-recursion)
+- [File Operations Using SWI](#file-operations-using-swi)
 
-```bash
+## LDR, STR Large Variables
+
+*(Section to be completed as needed)*
+
+## Bit Manipulation
+
+*(Section to be completed as needed)*
+
+## If-Else
+
+```assembly
+@ IF statement
+cmp r0, r1        @ Compare r0 with r1
+bne IF            @ Branch to IF if they are not equal
+...               @ Code if r0 == r1
 IF:
+...               @ Code if r0 != r1
 
-1   cmp r0, r1
-2 bne IF
-3   ... 
-4 IF :
-5   ... /* IF */
-
-IF-ELSE:
-
-1   cmp r0 , r1
-2   bne IF
-3   ...
-4   b ELSE
-5 IF :
-6   ... /* IF */
-7 ELSE :
-8   ... /* ELSE */
-
-
-```
-## LOOP:
-
-Both Loops act verymuch alike,
-the only notebale difference is the inclusion of a counter
-
-### WHILE:
-
-```bash
-1   ... /* necessary init steps */
-2   ...
-3 WHILE :
-4   cmp r0, #x /* x being  */
-5   beq DONE
-6   ...
-7   ...
-8   b WHILE
-9 DONE :
-
+@ IF-ELSE statement
+cmp r0, r1        @ Compare r0 with r1
+bne IF            @ Branch to IF if they are not equal
+...               @ Code if r0 == r1
+b ELSE            @ Branch to ELSE
+IF:
+...               @ Code if r0 != r1
+ELSE:
+...               @ Code for else condition
 ```
 
-### FOR:
+## Loop
 
-```bash
-1   ... /* necessary init steps */
-2   mov r0, #0 /* counter init */
-3 FOR :
-4   cmp r0, #x /* x being amount of for-calls */
-5   beq DONE
-6   ...
-7   add r1, r1, #1 /* incrementing counter */
-8   b FOR
-9 DONE :
+### While Loop
 
+```assembly
+@ WHILE loop
+@ Initial setup code
+...
+
+WHILE:
+cmp r0, #x        @ Compare r0 with x
+beq DONE          @ Break loop if r0 == x
+...               @ Loop body
+b WHILE           @ Jump back to start of WHILE loop
+
+DONE:
 ```
 
-## ARRAY + SORTING:
+### For Loop
 
-Arrays are basically: 
-a starting address and a varying amount of 4 Byte long Data.
+```assembly
+@ FOR loop
+@ Initial setup code
+...
+mov r0, #0        @ Initialize counter to 0
 
-Arrays with larger capacity for each element,
-can be implemented by tweaking the jumps and writing arguments.
+FOR:
+cmp r0, #x        @ Compare counter with x (number of iterations)
+beq DONE          @ Break loop if counter == x
+...               @ Loop body
+add r0, r0, #1    @ Increment counter
+b FOR             @ Jump back to start of FOR loop
 
-### ARRAY:
-
-```bash
-1   /* init */
-2   mov r0, #adr /* move the adr of first element into r0 */
-3   mov r1, #0 /* 0 to y , array pointer */
-4   /* LOOP to fill Array */
-5 LOOP :
-6   cmp r1, #y /* Break for LOOP  y = (Length of Array * 4) */
-7   bge DONE:
-8   ...
-9   add r1, r1, #4 /* moving array pointer */
-10  str rX, [r0, r1] /* writing value of X-Register into array */
-11  ...
-12  b LOOP:
-13 DONE :
+DONE:
 ```
 
-### SORTING
+## Array and Sorting
 
-```bash
-1   /* init */
-2   mov r0, #adr /* move the adr of first element into r0 */
-3   ...
-4   /* LOOP to iterate over Array */
-5 LOOP :
-6   cmp r1, #y /* Break for LOOP  y = (Length of Array * 4) */
-7   bge DONE:
-8   ...
-9   add r1, r1, #4 /* moving array pointer */
-10  ldr rX, [r0, r1] /* loading value of array into X-Register to compute */
-11  ... /* the computation happening */
-12  b LOOP:
-13 DONE :
+### Array
+
+```assembly
+@ Array initialization and filling loop
+@ Initial setup code
+mov r0, #adr      @ Load address of the first element into r0
+mov r1, #0        @ Initialize array pointer to 0
+
+LOOP:
+cmp r1, #(y * 4)  @ Compare array pointer with length of array in bytes
+bge DONE          @ Break loop if r1 >= length of array
+...               @ Code to fill array
+add r1, r1, #4    @ Move array pointer to next element (4 bytes per element)
+str rX, [r0, r1]  @ Store value of rX into the array
+b LOOP            @ Jump back to start of LOOP
+
+DONE:
 ```
 
-SUBPROGRAM:
+### Sorting
 
-SUBPROGRAM + STACK:
+```assembly
+@ Sorting algorithm loop
+@ Initial setup code
+mov r0, #adr      @ Load address of the first element into r0
+...
+
+LOOP:
+cmp r1, #(y * 4)  @ Compare array pointer with length of array in bytes
+bge DONE          @ Break loop if r1 >= length of array
+...               @ Sorting computation
+add r1, r1, #4    @ Move array pointer to next element (4 bytes per element)
+ldr rX, [r0, r1]  @ Load value from array into rX for computation
+b LOOP            @ Jump back to start of LOOP
+
+DONE:
+```
+
+## Subprograms
+
+### Simple Recursion
+
+```assembly
+@ Simple recursion example
+main:
+mov rX, #X        @ Move initial value into rX
+...
+bl RECURSION      @ Branch with link to RECURSION subroutine
 
 RECURSION:
+sub sp, sp, #(X+4)@ Allocate space on stack
+str rX, [sp, #X]  @ Push rX onto stack
+...
+str lr, [sp, #(X+4)] @ Save link register on stack
+...
+cmp rX, #0        @ Check for recursive break condition
+beq BREAK         @ Break recursion if condition is met
+bl RECURSION      @ Recursive call
 
-###Simple Recursion
+END:
+ldr rX, [sp, #X]  @ Pop rX from stack
+ldr lr, [sp, #(X+4)] @ Restore link register
+add sp, sp, #(X+4)@ Deallocate stack space
+bx lr             @ Return from subroutine
 
-it is important to keep in mind,
-that you will need to push and pop
-onto and from the stack manually
+BREAK:
+...               @ Code to execute when recursion ends
+b END             @ Branch to end
+```
 
-```bash
-1   main:
-2  mov rX, #X /* moving values for calculation onto registers*/
-3.  ...
-4.  bl RECURSION
-5.  
-6.  RECURSION:
-7.  sub sp, sp, #X+4 /* free space on stack */
-8.  str rX, [sp, #X] /* pushing rX values onto Stack}
-9.  ...
-10. str lr, [sp, #X+4] /* safe lr on Stack */
-11. ...
-12. /* recursive calculations */
-13. cmp X, X /* some recursive break */
-14. b** BREAK
-15. ...
-16. bl RECURSION: /* Recursive Call*/
-17
-18. END:
-19  pop {rX} /* empty stack */
-20. pop {lr}
-21. bx lr
-22
-23. BREAK:
-24. /* do random stuff */
-25. b END
+## File Operations Using SWI
+
+### File Handling with SWI
+
+In ARM assembly, file operations can be implemented using software interrupts (SWI). The `SWI{cond} <immediate_24_bit>` instruction invokes a software interrupt, which can be used to perform various system calls, including file handling. Below are examples of how to use SWI for basic file operations.
+
+#### Opening a File
+
+```assembly
+@ Open a file
+mov r0, #filename     @ Load the address of the filename into r0
+mov r1, #mode         @ Load the mode (e.g., read, write) into r1
+swi 0x66              @ Software interrupt to open file
+                      @ File descriptor returned in r0
+```
+
+#### Reading from a File
+
+```assembly
+@ Read from a file
+mov r0, #file_desc    @ Load the file descriptor into r0
+mov r1, #buffer       @ Load the address of the buffer into r1
+mov r2, #size         @ Load the number of bytes to read into r2
+swi 0x67              @ Software interrupt to read from file
+                      @ Number of bytes read returned in r0
+```
+
+#### Writing to a File
+
+```assembly
+@ Write to a file
+mov r0, #file_desc    @ Load the file descriptor into r0
+mov r1, #buffer       @ Load the address of the buffer into r1
+mov r2, #size         @ Load the number of bytes to write into r2
+swi 0x68              @ Software interrupt to write to file
+                      @ Number of bytes written returned in r0
+```
+
+#### Closing a File
+
+```assembly
+@ Close a file
+mov r0, #file_desc    @ Load the file descriptor into r0
+swi 0x69              @ Software interrupt to close file
+                      @ Returns 0 on success, or an error code
+```
+
+### Example: Reading from a File
+
+Here's a complete example demonstrating how to open a file, read from it, and then close it.
+
+```assembly
+@ Example of reading from a file
+
+.data
+filename: .asciz "example.txt"   @ File name
+buffer: .space 256               @ Buffer to hold file contents
+
+.text
+.global _start
+
+_start:
+    @ Open the file
+    ldr r0, =filename            @ Load the address of the filename
+    mov r1, #0                   @ Mode: read (0)
+    swi 0x66                     @ Open file
+    mov r4, r0                   @ Save file descriptor
+
+    @ Read from the file
+    ldr r0, [r4]                 @ Load file descriptor
+    ldr r1, =buffer              @ Load buffer address
+    mov r2, #256                 @ Number of bytes to read
+    swi 0x67                     @ Read from file
+
+    @ Close the file
+    mov r0, r4                   @ Load file descriptor
+    swi 0x69                     @ Close file
+
+    @ Exit (assuming a Linux system call to exit)
+    mov r7, #1                   @ sys_exit
+    swi 0x0                      @ Call kernel
+```
+
+---
+
+Feel free to contribute by adding more sections or improving existing ones. Happy coding!
+
 ```
 
