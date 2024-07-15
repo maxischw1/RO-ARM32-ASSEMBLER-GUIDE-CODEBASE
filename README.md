@@ -240,7 +240,6 @@ _start:
 
 ---
 
-Feel free to contribute by adding more sections or improving existing ones. Happy coding!
 
-```
+
 
