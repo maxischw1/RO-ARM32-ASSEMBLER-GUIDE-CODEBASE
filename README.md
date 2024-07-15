@@ -20,11 +20,11 @@ This repository contains code modules for basic operations in ARM32 assembly, in
 
 ## LDR, STR Large Variables
 
-*(Section to be completed as needed)*
+//WIP
 
 ## Bit Manipulation
 
-*(Section to be completed as needed)*
+//WIP
 
 ## If-Else
 
