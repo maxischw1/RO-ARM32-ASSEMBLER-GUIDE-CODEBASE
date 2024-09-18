@@ -154,7 +154,22 @@ BREAK:
 ...               @ Code to execute when recursion ends
 b END             @ Branch to end
 ```
-
+## BONUS
+### Subprogram Jumping
+```assembly
+bx lr @ Jump to adress saved in Link Register
+```
+### Subprogram Saving Link Register on Stack (happens in Main)
+#### Only necessary if intended to use as Subprogram
+```assembly
+push {lr} @ Save Link Register on Stack for returning
+...
+pop {lr} @ Put back Link Register saved on Stack into Link Register
+```
+### BL for Saving Makro for building recursion Stack
+```assembly
+bl MAKRO @ Saves MAKRO-Adress onto Stack
+```
 ## File Operations Using SWI
 
 ### File Handling with SWI
